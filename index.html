@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Случайные числа с анимацией</title>
+    <style>
+        #randomNumbers {
+            font-size: 48px;
+            margin-top: 20px;
+        }
+        #userNumber {
+            font-size: 24px;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+        .stage {
+            border: 1px solid #333;
+            margin-bottom: 20px;
+            padding: 10px;
+        }
+        h1, h2 {
+            margin: 0;
+            padding: 0;
+        }
+        .flex {
+            display: flex;
+            gap: 20px;
+        }
+        .column-flex {
+            flex-direction: column;
+        }
+    </style>
+</head>
+<body>
+    <h1>Определение победителя</h1>
+    <div class="stage flex column-flex" id="stageOne">
+        <h2>Этап 0: Впиши номер, Андрюша</h2>
+        <div class="flex">
+            <input type="number" id="userInput" placeholder="Введите число" />
+            <button id="surpriseButton">Определить победителя</button>
+        </div>
+    </div>
+    <div class="stage flex column-flex" id="stageTwo">
+        <h2>Этап 1: Количество участников</h2>
+        <div class="flex">
+            <input type="number" id="numbersMax" placeholder="Введите предел чисел:">
+            <button id="generateButton">Сгенерировать случайные числа</button>
+        </div>
+    </div>
+    <div class="stage flex column-flex" id="stageThree">
+        <h2>Число победитель:</h2>
+        <div id="randomNumbers"></div>
+    </div>
+    
+    
+    
+    
+
+    <script>
+        document.getElementById('surpriseButton').addEventListener('click', function() {
+            document.getElementById('stageOne').style.display = 'none';
+        });
+        document.getElementById('generateButton').addEventListener('click', function() {
+            // Получаем значение из input
+            const userInput = document.getElementById('userInput').value;
+            const numbersMax = document.getElementById('numbersMax').value;
+            const randomNumbers = [];
+
+            // Генерируем 5 случайных чисел
+            for (let i = 0; i < 100; i++) {
+                randomNumbers.push(Math.floor(Math.random() * 100) + 1);
+            }
+
+            // Отображаем случайные числа с анимацией
+            const randomNumbersDiv = document.getElementById('randomNumbers');
+            randomNumbersDiv.innerText = ''; // Очищаем предыдущие числа
+
+            let index = 0;
+            const interval = setInterval(() => {
+                if (index < randomNumbers.length) {
+                    randomNumbersDiv.innerText = randomNumbers[index]; // Заменяем предыдущее число
+                    index++;
+                } else {
+                    clearInterval(interval);
+                    // После показа всех случайных чисел, показываем введенное пользователем число
+                    setTimeout(() => {
+                        document.getElementById('randomNumbers').innerText = userInput;
+                    }, 50); // Задержка перед показом введенного числа
+                }
+            }, 50); // Интервал в 1 секунду между показом чисел
+        });
+    </script>
+</body>
+</html>
